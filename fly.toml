@@ -1,0 +1,15 @@
+app = "trading-bot-agent"
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[env]
+  PORT = "8080"
+  AUTH_KEY = "08111990"
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
