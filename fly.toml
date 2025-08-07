@@ -1,15 +1,23 @@
-app = "trading-bot-agent"
-kill_signal = "SIGINT"
-kill_timeout = 5
+# fly.toml app configuration file generated for trading-bot-iq7f7g on 2025-06-29T07:45:32Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[env]
-  PORT = "8080"
-  AUTH_KEY = "08111990"
+app = 'trading-bot-iq7f7g'
+primary_region = 'waw'
 
-[[services]]
+[build]
+
+[http_service]
   internal_port = 8080
-  protocol = "tcp"
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
-  [[services.ports]]
-    handlers = ["http"]
-    port = 80
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024
