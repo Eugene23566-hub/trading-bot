@@ -1,4 +1,5 @@
 # Crypto Analyst v1.2 — 15-minute paper-trading agent
+
 External scanner for the Crypto Analyst project.
 
 ## Safety boundary
@@ -19,10 +20,10 @@ sudo apt update
 sudo apt install -y git python3 python3-venv rsync
 git clone https://github.com/Eugene23566-hub/trading-bot.git
 cd trading-bot/crypto_analyst_v12
-sudo ./deploy/install.sh
+sudo bash deploy/install.sh
 sudo nano /opt/crypto-analyst/.env
-sudo systemctl start crypto-analyst.timer
 sudo systemctl start crypto-analyst.service
+sudo systemctl start crypto-analyst.timer
 systemctl list-timers | grep crypto-analyst
 journalctl -u crypto-analyst.service -n 100 --no-pager
 ```
@@ -30,7 +31,11 @@ journalctl -u crypto-analyst.service -n 100 --no-pager
 ## Required secret
 `OPENAI_API_KEY`
 
-Optional: Telegram token/chat id and Google service-account JSON.
+Default model is `gpt-5.6-luna`, chosen for a high-frequency cost-sensitive analysis loop.
+
+Optional:
+- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
+- Google service-account JSON
 
 Google Trade Journal ID:
 `1sA0J3Q43E9AgBU8QRgxS_6-5P4OeKya91hLIrmTPLZ0`
@@ -38,4 +43,13 @@ Google Trade Journal ID:
 For Google Sheets sync, share the sheet with the service-account email and place its JSON at:
 `/opt/crypto-analyst/secrets/google-service-account.json`
 
+After copying the JSON:
+```bash
+sudo chown cryptoanalyst:cryptoanalyst /opt/crypto-analyst/secrets/google-service-account.json
+sudo chmod 600 /opt/crypto-analyst/secrets/google-service-account.json
+```
+
 SQLite is canonical for the external 15-minute loop. Google Sheets is the reporting mirror.
+
+## Security note
+The root repository previously tracked a `.env`. It has been removed from the current tree and ignored, but any credentials that were committed previously must be rotated because Git history can retain them.
