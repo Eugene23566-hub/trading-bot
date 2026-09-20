@@ -1,0 +1,19 @@
+[Unit]
+Description=Crypto Analyst v1.2 paper-trading scan
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+User=cryptoanalyst
+Group=cryptoanalyst
+WorkingDirectory=/opt/crypto-analyst
+EnvironmentFile=/opt/crypto-analyst/.env
+ExecStart=/opt/crypto-analyst/.venv/bin/python /opt/crypto-analyst/run_cycle.py
+Nice=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/crypto-analyst/state
+[Install]
+WantedBy=multi-user.target
